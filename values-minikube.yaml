@@ -1,0 +1,69 @@
+appDomain: change-me
+
+tracing: { }
+
+storage:
+  filesystem:
+    size: 32GiB
+
+database:
+  host: infrastructure-postgresql
+  port: "5432"
+  name: trustify
+  username: trustify
+  password: trustify1234
+
+createDatabase:
+  name: postgres
+  username: postgres
+  password:
+    valueFrom:
+      secretKeyRef:
+        name: infrastructure-postgresql
+        key: postgres-password
+
+migrateDatabase:
+  username: postgres
+  password:
+    valueFrom:
+      secretKeyRef:
+        name: infrastructure-postgresql
+        key: postgres-password
+
+modules:
+  createDatabase:
+    enabled: true
+  migrateDatabase:
+    enabled: true
+
+## Infrastructure Charts
+
+keycloak:
+  enabled: true
+  production: false
+  auth:
+    adminUser: admin
+    adminPassword: admin123456 # notsecret
+  tls:
+    enabled: false
+  service: { }
+  ingress:
+    enabled: true
+    servicePort: http
+
+postgresql:
+  enabled: false # see remark in Chart.yaml
+
+oidc:
+  #issuerUrl: http://infrastructure-keycloak/realms/chicken
+  clients:
+    frontend: { }
+    walker:
+      clientSecret:
+        value: 5460cc91-4e20-4edd-881c-b15b169f8a79 # notsecret
+    testingUser:
+      clientSecret:
+        value: 0e6bf990-43b4-4efb-95d7-b24f2b94a525 # notsecret
+    testingManager:
+      clientSecret:
+        value: ca48053c-3b82-4650-a98d-4cace7f2d567 # notsecret

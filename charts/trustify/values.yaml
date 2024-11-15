@@ -1,0 +1,64 @@
+appDomain: change-me
+
+partOf: trustify
+replicas: 1
+
+image:
+  name: trustd
+  registry: ghcr.io/trustification
+  pullPolicy: IfNotPresent
+  version: latest
+
+rust: {}
+
+ingress: {}
+
+tls: {}
+
+storage: {}
+
+database: {}
+
+openshift:
+  useServiceCa: true
+
+oidc:
+  clients:
+    frontend:
+      clientId: frontend
+    walker:
+      clientId: walker
+      clientSecret:
+
+serviceMonitor:
+  enabled: false
+
+infrastructure:
+  port: 9010
+
+metrics:
+  enabled: false
+
+tracing:
+  enabled: false
+
+modules:
+  server:
+    enabled: true
+    ingress: {}
+    image: {}
+    infrastructure: {}
+    tracing: {}
+    metrics: {}
+    rust: {}
+
+  createDatabase:
+    enabled: false
+    image:
+      name: postgres
+      registry: docker.io/library
+      version: "16.0"
+
+  migrateDatabase:
+    enabled: false
+    image: {}

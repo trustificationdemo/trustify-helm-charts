@@ -1,0 +1,16 @@
+apiVersion: v2
+name: trustify
+description: A Helm chart for managing Trustify services on Kubernetes
+
+kubeVersion: ^1.29.0
+
+maintainers:
+  - name: ctron
+    email: jreimann@redhat.com
+
+
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+icon: https://raw.githubusercontent.com/trustification/trustification/main/docs/branding/svg/trustification_icon_default.svg
+home: https://trustification.io

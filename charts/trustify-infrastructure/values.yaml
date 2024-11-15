@@ -1,0 +1,27 @@
+
+# If you wish to add additional configuration parameters to the create-database, uncomment the section below
+# The example below contains configuration for logging queries with duration longer than 500ms
+# postgresql:
+#   primary:
+#     extendedConfiguration: |-
+#       log_min_duration_statement = 500
+postgresql:
+  enabled: false
+
+keycloak:
+  enabled: false
+
+keycloakPostInstall:
+  disabled: false
+  # NOTE: this must be an image which contain things like bash, kcadm, grep, awk
+  image: docker.io/bitnami/keycloak:23
+  kcadmPath: /opt/bitnami/keycloak/bin/kcadm.sh
+  realmAdmin:
+    name: admin
+    password: admin123456
+  redirectUrls: []
+  identityProviders:
+    github: {}
+
+oidc:
+  clients: {}
