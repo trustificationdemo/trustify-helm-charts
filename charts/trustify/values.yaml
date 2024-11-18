@@ -7,7 +7,6 @@ image:
   name: trustd
   registry: ghcr.io/trustification
   pullPolicy: IfNotPresent
-  version: latest
 
 rust: {}
 
