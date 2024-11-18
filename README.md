@@ -43,6 +43,12 @@ Create a new namespace:
 kubectl create ns trustify
 ```
 
+Use it as default:
+
+```bash
+kubectl config set-context --current --namespace=trustify
+```
+
 Install the infrastructure services:
 
 ```bash
