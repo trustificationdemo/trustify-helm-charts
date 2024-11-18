@@ -55,7 +55,6 @@ postgresql:
   enabled: false # see remark in Chart.yaml
 
 oidc:
-  #issuerUrl: http://infrastructure-keycloak/realms/chicken
   clients:
     frontend: { }
     walker:
