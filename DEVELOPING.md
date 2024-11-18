@@ -38,7 +38,7 @@ helm lint ./charts/trustify --values values-minikube.yaml --set-string appDomain
 Lint even more:
 
 ```shell
-ct lint --charts ./charts/trustify  --helm-lint-extra-args "--values values-kind.yaml --set-string appDomain=.localhost"
+ct lint --charts ./charts/trustify  --helm-lint-extra-args "--values values-minishift.yaml --set-string appDomain=.localhost"
 ```
 
 ## Find that whitespace
