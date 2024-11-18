@@ -5,6 +5,19 @@ on:
   pull_request:
 
 jobs:
+  uncomitted:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - name: Ensure JSON schema is up-to-date from YAML
+        run: |
+          python3 -c 'import sys, yaml, json; print(json.dumps(yaml.safe_load(sys.stdin), indent=2))' < charts/trustify/values.schema.yaml > charts/trustify/values.schema.json
+          
+          if ! git diff --quiet; then
+            echo "::error::Uncommitted changes (update the JSON schema after making YAML changes)"
+            exit 1
+          fi
+
   lint-test:
     runs-on: ubuntu-latest
     steps:
