@@ -42,6 +42,6 @@ Arguments (dict):
   {{- include "trustification.common.requiredEnvVarValue" (dict "value" .database.username "msg" "Missing value for create-database username" ) | nindent 2 }}
 - name: {{ .prefix | default "TRUSTD_DB_" }}PASSWORD
   {{- include "trustification.common.requiredEnvVarValue" (dict "value" .database.password "msg" "Missing value for create-database password" ) | nindent 2 }}
-- name: {{ .prefix | default "TRUSTD_DB_" }}PGSSLMODE
+- name: {{ .prefix | default "TRUSTD_DB_" }}SSLMODE
   value: {{ .database.sslMode | default "allow" }}
 {{- end }}
