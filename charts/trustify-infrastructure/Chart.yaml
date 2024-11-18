@@ -2,6 +2,10 @@ apiVersion: v2
 name: trustify-infrastructure
 description: A Helm chart for setting up self-hosted infrastructure components for using Trustify
 
+maintainers:
+  - name: ctron
+    email: jreimann@redhat.com
+
 type: application
 version: 0.1.0
 appVersion: "0.1.0"
