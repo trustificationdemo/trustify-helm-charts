@@ -11,6 +11,18 @@ Arguments: (dict)
 {{- end }}
 
 {{/*
+Evaluate the infrastructure initial delay seconds.
+
+Arguments: (dict)
+  * root - .
+  * module - module object
+*/}}
+{{- define "trustification.application.infrastructure.initialDelaySeconds"}}
+{{- $infra := merge (deepCopy .module.infrastructure ) .root.Values.infrastructure }}
+{{- $infra.initialDelaySeconds | default 2 -}}
+{{- end }}
+
+{{/*
 Additional env-vars for configuring the infrastructure endpoint.
 
 Arguments (dict):
@@ -58,13 +70,13 @@ Arguments (dict):
 */}}
 {{ define "trustification.application.infrastructure.probes" }}
 livenessProbe:
-  initialDelaySeconds: 2
+  initialDelaySeconds: {{ include "trustification.application.infrastructure.initialDelaySeconds" . }}
   httpGet:
     path: /health/live
     port: {{ include "trustification.application.infrastructure.port" . }}
 
 readinessProbe:
-  initialDelaySeconds: 2
+  initialDelaySeconds: {{ include "trustification.application.infrastructure.initialDelaySeconds" . }}
   httpGet:
     path: /health/ready
     port: {{ include "trustification.application.infrastructure.port" . }}

@@ -97,6 +97,12 @@ properties:
         description: |
           Port on which infrastructure services are exposed.
 
+      initialDelaySeconds:
+        type: integer
+        minimum: 0
+        description: |
+          The initial delay seconds for the infrastructure probes.
+
   metrics:
     type: object
     additionalProperties: false

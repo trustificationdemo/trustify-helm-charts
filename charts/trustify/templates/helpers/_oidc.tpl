@@ -116,6 +116,8 @@ Arguments (dict):
 {{- if not .module.disableSwaggerOidc }}
 - name: SWAGGER_UI_OIDC_ISSUER_URL
   value: {{ include "trustification.oidc.frontendIssuerUrl" .root | quote }}
+- name: SWAGGER_UI_OIDC_CLIENT_ID
+  value: {{ include "trustification.oidc.frontendClientId" .root }}
 
 {{- $client := required "Unable to find client for 'frontend'" (get .root.Values.oidc.clients "frontend" ) -}}
 
