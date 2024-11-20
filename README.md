@@ -24,17 +24,21 @@ Use it as default:
 kubectl config set-context --current --namespace=trustify
 ```
 
-Install the infrastructure services:
+Evaluate the application domain:
 
 ```bash
 APP_DOMAIN=.$(minikube ip).nip.io
+```
+
+Install the infrastructure services:
+
+```bash
 helm upgrade --install --dependency-update -n trustify infrastructure charts/trustify-infrastructure --values values-minikube.yaml --set-string keycloak.ingress.hostname=sso$APP_DOMAIN --set-string appDomain=$APP_DOMAIN
 ```
 
 Then deploy the application:
 
 ```bash
-APP_DOMAIN=.$(minikube ip).nip.io
 helm upgrade --install -n trustify trustify charts/trustify --values values-minikube.yaml --set-string appDomain=$APP_DOMAIN
 ```
 
@@ -47,24 +51,50 @@ kind create cluster --config kind/config.yaml
 kubectl apply -f https://kind.sigs.k8s.io/examples/ingress/deploy-ingress-nginx.yaml
 ```
 
-Create a new namespace:
-
-```bash
-kubectl create ns trustify
-```
-
-Use it as default:
-
-```bash
-kubectl config set-context --current --namespace=trustify
-```
-
-Install the infrastructure services:
+The rest works like the `minikube` approach. The `APP_DOMAIN` is different though:
 
 ```bash
 APP_DOMAIN=.$(kubectl get node kind-control-plane -o jsonpath='{.status.addresses[?(@.type == "InternalIP")].address}' | awk '// { print $1 }').nip.io
-helm upgrade --install --dependency-update -n trustify infrastructure charts/trustify-infrastructure --values values-minikube.yaml --set-string keycloak.ingress.hostname=sso$APP_DOMAIN --set-string appDomain=$APP_DOMAIN
-helm upgrade --install -n trustify trustify charts/trustify --values values-minikube.yaml --set-string appDomain=$APP_DOMAIN
+```
+
+### CRC
+
+Create a new cluster:
+
+```bash
+crc start --cpus 8 --memory 32768 --disk-size 80
+```
+
+Create a new namespace:
+
+```bash
+oc new-project trustify
+```
+
+Evaluate the application domain:
+
+```bash
+APP_DOMAIN=-trustify.$(oc -n openshift-ingress-operator get ingresscontrollers.operator.openshift.io default -o jsonpath='{.status.domain}')
+```
+
+Provide the trust anchor:
+
+```bash
+oc get secret -n openshift-ingress  router-certs-default -o go-template='{{index .data "tls.crt"}}' | base64 -d > tls.crt
+oc create configmap crc-trust-anchor --from-file=tls.crt -n trustify
+rm tls.crt
+```
+
+Deploy the infrastructure:
+
+```bash
+helm upgrade --install --dependency-update -n trustify infrastructure charts/trustify-infrastructure --values values-ocp-no-aws.yaml --set-string keycloak.ingress.hostname=sso$APP_DOMAIN --set-string appDomain=$APP_DOMAIN
+```
+
+Deploy the application:
+
+```bash
+helm upgrade --install -n trustify trustify charts/trustify --values values-ocp-no-aws.yaml --set-string appDomain=$APP_DOMAIN --values values-crc.yaml
 ```
 
 ## From a released chart
