@@ -1,7 +1,7 @@
 {{- if .Values.modules.server.enabled }}
 {{- $res := dict "root" . "name" "storage" -}}
 
-{{- if .Values.storage }}
+{{- if .Values.storage.filesystem }}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
