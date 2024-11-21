@@ -1,4 +1,4 @@
-{{- if and .Values.modules.server.enabled }}
+{{- if .Values.modules.server.enabled }}
 {{- $res := dict "root" . "name" "storage" -}}
 
 {{- if .Values.storage }}

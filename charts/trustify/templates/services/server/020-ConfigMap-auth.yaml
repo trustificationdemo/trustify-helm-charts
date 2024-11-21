@@ -1,4 +1,4 @@
-{{- if and .Values.modules.server.enabled }}
+{{- if .Values.modules.server.enabled }}
 {{- $mod := dict "root" . "name" "server" "component" "server" "module" .Values.modules.server -}}
 {{ include "trustification.authenticator.defaultConfigMap" $mod }}
 {{- end }}
