@@ -46,10 +46,10 @@ data:
     }
   {{ end }}
 
-  {{ if hasKey .Values.oidc.clients "walker" }}
-  client-walker.json: |
+  {{ if hasKey .Values.oidc.clients "cli" }}
+  client-cli.json: |
     {
-      "clientId": {{ .Values.oidc.clients.walker.clientId | default "walker" | toJson }},
+      "clientId": {{ .Values.oidc.clients.cli.clientId | default "cli" | toJson }},
       "clientAuthenticatorType": "client-secret",
       "enabled": true,
       "publicClient": false,

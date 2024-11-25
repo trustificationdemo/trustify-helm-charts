@@ -73,8 +73,8 @@ spec:
               value: {{ .clientSecret | quote }}
             {{ end }}
 
-            {{- with .Values.oidc.clients.walker }}
-            - name: WALKER_SECRET
+            {{- with .Values.oidc.clients.cli }}
+            - name: CLI_SECRET
               {{- .clientSecret | toYaml | nindent 14 }}
             {{ end }}
 
@@ -188,7 +188,7 @@ spec:
 
               # create service accounts
               CLIENTS=""
-              for client in {{ with .Values.oidc.clients.walker }}{{ .clientId | default "walker" | quote }}{{ end }} {{ if .Values.oidc.clients.testingManager }}testing-manager{{ end }} {{ if .Values.oidc.clients.testingUser }}testing-user{{ end }}
+              for client in {{ with .Values.oidc.clients.cli }}{{ .clientId | default "cli" | quote }}{{ end }} {{ if .Values.oidc.clients.testingManager }}testing-manager{{ end }} {{ if .Values.oidc.clients.testingUser }}testing-user{{ end }}
               do
                   ID=$(kcadm get clients -r "${REALM}" --query exact=true --query "clientId=${client}" --fields id --format csv --noquotes)
                   CLIENT_OPTS=()
@@ -202,9 +202,9 @@ spec:
                   fi
                   # now set the client-secret
                   ID=$(kcadm get clients -r "${REALM}" --query exact=true --query "clientId=${client}" --fields id --format csv --noquotes)
-                  if [ "${client}" == "walker" ]; then
+                  if [ "${client}" == "cli" ]; then
                       kcadm add-roles -r "${REALM}" --uusername service-account-${client} --rolename chicken-manager
-                      kcadm update "clients/${ID}" -r "${REALM}" -s "secret=${WALKER_SECRET}"
+                      kcadm update "clients/${ID}" -r "${REALM}" -s "secret=${CLI_SECRET}"
                   fi
                   if [ "${client}" == "testing-manager" ]; then
                       kcadm add-roles -r "${REALM}" --uusername service-account-${client} --rolename chicken-manager

@@ -76,7 +76,7 @@ postgresql:
 oidc:
   clients:
     frontend: { }
-    walker:
+    cli:
       clientSecret:
         value: 5460cc91-4e20-4edd-881c-b15b169f8a79 # notsecret
     testingUser:

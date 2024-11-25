@@ -113,12 +113,14 @@ authentication:
           - "create.metadata"
           - "create.sbom"
           - "create.weakness"
+
           - "upload.dataset"
           - "update.advisory"
           - "update.importer"
           - "update.metadata"
           - "update.sbom"
           - "update.weakness"
+
           - "delete.advisory"
           - "delete.importer"
           - "delete.metadata"
@@ -126,8 +128,8 @@ authentication:
           - "delete.vulnerability"
           - "delete.weakness"
 
-    - clientId: {{ include "trustification.oidc.clientId" (dict "root" .root "clientId" "walker" ) }}
-      issuerUrl: {{ include "trustification.oidc.issuerUrlForClient" (dict "root" .root "clientId" "walker" ) }}
+    - clientId: {{ include "trustification.oidc.clientId" (dict "root" .root "clientId" "cli" ) }}
+      issuerUrl: {{ include "trustification.oidc.issuerUrlForClient" (dict "root" .root "clientId" "cli" ) }}
 
       {{- with .root.Values.tls.additionalTrustAnchor }}
       tlsCaCertificates:
@@ -135,29 +137,29 @@ authentication:
       {{- end }}
 
       scopeMappings:
-        "trustification/advisory":
+        "trustify/advisory":
           - "create.advisory"
           - "read.advisory"
           - "update.advisory"
           - "delete.advisory"
-        "trustification/importer":
+        "trustify/importer":
           - "create.importer"
           - "read.importer"
           - "update.importer"
           - "delete.importer"
-        "trustification/metadata":
+        "trustify/metadata":
           - "create.metadata"
           - "read.metadata"
           - "update.metadata"
           - "delete.metadata"
-        "trustification/sbom":
+        "trustify/sbom":
           - "create.sbom"
           - "read.sbom"
           - "update.sbom"
           - "delete.sbom"
-        "trustification/ai":
+        "trustify/ai":
           - "ai"
-        "trustification/admin":
+        "trustify/admin":
           - "upload.dataset"
           - "delete.vulnerability"
 
@@ -178,8 +180,8 @@ authentication:
         - {{ . | quote }}
       {{- end }}
 
-    - clientId: {{ include "trustification.oidc.clientId" (dict "root" .root "clientId" "walker" ) }}
-      issuerUrl: {{ include "trustification.oidc.issuerUrlForClient" (dict "root" .root "clientId" "walker" ) }}
+    - clientId: {{ include "trustification.oidc.clientId" (dict "root" .root "clientId" "cli" ) }}
+      issuerUrl: {{ include "trustification.oidc.issuerUrlForClient" (dict "root" .root "clientId" "cli" ) }}
       scopeMappings: *keycloakScopeMappings
       {{- with .root.Values.tls.additionalTrustAnchor }}
       tlsCaCertificates:
