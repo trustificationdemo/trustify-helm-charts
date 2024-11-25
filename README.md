@@ -24,22 +24,23 @@ Use it as default:
 kubectl config set-context --current --namespace=trustify
 ```
 
-Evaluate the application domain:
+Evaluate the application domain and namespace:
 
 ```bash
+NAMESPACE=trustify
 APP_DOMAIN=.$(minikube ip).nip.io
 ```
 
 Install the infrastructure services:
 
 ```bash
-helm upgrade --install --dependency-update -n trustify infrastructure charts/trustify-infrastructure --values values-minikube.yaml --set-string keycloak.ingress.hostname=sso$APP_DOMAIN --set-string appDomain=$APP_DOMAIN
+helm upgrade --install --dependency-update -n $NAMESPACE infrastructure charts/trustify-infrastructure --values values-minikube.yaml --set-string keycloak.ingress.hostname=sso$APP_DOMAIN --set-string appDomain=$APP_DOMAIN
 ```
 
 Then deploy the application:
 
 ```bash
-helm upgrade --install -n trustify trustify charts/trustify --values values-minikube.yaml --set-string appDomain=$APP_DOMAIN
+helm upgrade --install -n $NAMESPACE trustify charts/trustify --values values-minikube.yaml --set-string appDomain=$APP_DOMAIN
 ```
 
 ### Kind
@@ -71,16 +72,17 @@ Create a new namespace:
 oc new-project trustify
 ```
 
-Evaluate the application domain:
+Evaluate the application domain and namespace:
 
 ```bash
-APP_DOMAIN=-trustify.$(oc -n openshift-ingress-operator get ingresscontrollers.operator.openshift.io default -o jsonpath='{.status.domain}')
+NAMESPACE=trustify
+APP_DOMAIN=-$NAMESPACE.$(oc -n openshift-ingress-operator get ingresscontrollers.operator.openshift.io default -o jsonpath='{.status.domain}')
 ```
 
 Provide the trust anchor:
 
 ```bash
-oc get secret -n openshift-ingress  router-certs-default -o go-template='{{index .data "tls.crt"}}' | base64 -d > tls.crt
+oc get secret -n openshift-ingress router-certs-default -o go-template='{{index .data "tls.crt"}}' | base64 -d > tls.crt
 oc create configmap crc-trust-anchor --from-file=tls.crt -n trustify
 rm tls.crt
 ```
@@ -88,13 +90,23 @@ rm tls.crt
 Deploy the infrastructure:
 
 ```bash
-helm upgrade --install --dependency-update -n trustify infrastructure charts/trustify-infrastructure --values values-ocp-no-aws.yaml --set-string keycloak.ingress.hostname=sso$APP_DOMAIN --set-string appDomain=$APP_DOMAIN
+helm upgrade --install --dependency-update -n $NAMESPACE infrastructure charts/trustify-infrastructure --values values-ocp-no-aws.yaml --set-string keycloak.ingress.hostname=sso$APP_DOMAIN --set-string appDomain=$APP_DOMAIN
 ```
 
 Deploy the application:
 
 ```bash
-helm upgrade --install -n trustify trustify charts/trustify --values values-ocp-no-aws.yaml --set-string appDomain=$APP_DOMAIN --values values-crc.yaml
+helm upgrade --install -n $NAMESPACE trustify charts/trustify --values values-ocp-no-aws.yaml --set-string appDomain=$APP_DOMAIN --values values-crc.yaml
+```
+
+## OpenShift with AWS resources
+
+Instead of using Keycloak and the filesystem storage, it is also possible to use AWS Cognito and S3.
+
+Deploy only the application:
+
+```bash
+helm upgrade --install -n $NAMESPACE trustify charts/trustify --values values-ocp-aws.yaml --set-string appDomain=$APP_DOMAIN
 ```
 
 ## From a released chart
