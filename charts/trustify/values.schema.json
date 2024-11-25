@@ -484,8 +484,7 @@
           "type": "object",
           "additionalProperties": false,
           "required": [
-            "type",
-            "cognitoDomainUrl"
+            "type"
           ],
           "properties": {
             "type": {
@@ -493,10 +492,6 @@
               "enum": [
                 "cognito"
               ]
-            },
-            "cognitoDomainUrl": {
-              "type": "string",
-              "format": "url"
             }
           }
         }

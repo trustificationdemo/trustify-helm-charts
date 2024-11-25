@@ -5,7 +5,6 @@ ingress:
 
 authenticator:
   type: cognito
-  cognitoDomainUrl: <cognito-domain-url> # <3>
 
 storage:
   s3:
