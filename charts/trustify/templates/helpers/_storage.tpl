@@ -79,7 +79,7 @@ Arguments (dict):
 */}}
 {{- define "trustification.storage.volumeMount" }}
 {{ $storage := .module.storage | default .root.Values.storage }}
-{{- if $storage.filesystem }}
+{{- if eq $storage.type "filesystem" }}
 - name: storage
   mountPath: /data/storage
 {{- end }}
@@ -95,7 +95,7 @@ Arguments (dict):
 */}}
 {{- define "trustification.storage.volume" }}
 {{ $storage := .module.storage | default .root.Values.storage }}
-{{- if $storage.filesystem }}
+{{- if eq $storage.type "filesystem" }}
 - name: storage
   persistentVolumeClaim:
     claimName: {{ include "trustification.common.name" ( set (deepCopy .) "name" "storage" ) }}

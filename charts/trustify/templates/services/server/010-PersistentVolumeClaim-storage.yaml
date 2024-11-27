@@ -1,7 +1,7 @@
 {{- if .Values.modules.server.enabled }}
 {{- $res := dict "root" . "name" "storage" -}}
 
-{{- if .Values.storage.filesystem }}
+{{- if eq .Values.storage.type "filesystem" }}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
@@ -14,9 +14,9 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: {{ include "trustification.common.byteSizeValue" .Values.storage.filesystem.size }}
+      storage: {{ include "trustification.common.byteSizeValue" .Values.storage.size }}
 
-{{- with .Values.storage.filesystem.storageClassName }}
+{{- with .Values.storage.storageClassName }}
   storageClassName: {{ . | quote }}
 {{- end }}
 
