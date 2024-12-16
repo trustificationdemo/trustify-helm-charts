@@ -63,6 +63,7 @@ spec:
 
           command:
             - psql
+            - --echo-all
             - -v
             - ON_ERROR_STOP=1
             - -v
