@@ -26,6 +26,7 @@ storage:
         key: aws_secret_access_key
 
 database:
+  sslMode: require
   host:
     valueFrom:
       secretKeyRef:
@@ -70,7 +71,6 @@ createDatabase:
         key: db.password
 
 migrateDatabase:
-  sslMode: require
   username:
     valueFrom:
       secretKeyRef:
