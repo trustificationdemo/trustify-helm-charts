@@ -50,7 +50,7 @@ database:
     valueFrom:
       secretKeyRef:
         name: postgresql-credentials
-        key: db.port
+        key: db.password
 
 createDatabase:
   name:
