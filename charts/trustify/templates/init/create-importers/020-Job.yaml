@@ -42,7 +42,7 @@ spec:
           {{- include "trustification.application.container" $mod | nindent 6 }}
 
           env:
-            {{- include "trustification.psql.envVars" ( dict "root" . "database" ( merge ( deepCopy (.Values.modules.createImporters.database | default dict ) ) .Values.database ) ) | nindent 12 }}
+            {{- include "trustification.psql.envVars" ( dict "root" . "database" ( merge ( deepCopy (.Values.modules.createImporters.database | default dict ) ) (deepCopy .Values.database) ) ) | nindent 12 }}
 
           volumeMounts:
             {{- include "trustification.application.extraVolumeMounts" $mod | nindent 12 }}
