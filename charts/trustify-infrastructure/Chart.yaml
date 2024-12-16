@@ -23,10 +23,10 @@ home: https://trustification.io
 
 dependencies:
   - name: keycloak
-    repository: https://charts.bitnami.com/bitnami
+    repository: oci://registry-1.docker.io/bitnamicharts
     version: 22.0.0
     condition: keycloak.enabled
   - name: postgresql
-    repository: https://charts.bitnami.com/bitnami
+    repository: oci://registry-1.docker.io/bitnamicharts
     version: 16.0.0
     condition: postgresql.enabled
