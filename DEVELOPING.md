@@ -35,11 +35,17 @@ yq eval -o=json charts/trustify/values.schema.yaml > charts/trustify/values.sche
 helm lint ./charts/trustify --values values-minikube.yaml --set-string appDomain=.localhost
 ```
 
-Lint even more:
+Quick lint even more:
 
 ```shell
-ct lint --charts ./charts/trustify  --helm-lint-extra-args "--values values-minikube.yaml --set-string appDomain=.localhost"
+ct lint --charts ./charts/trustify --helm-lint-extra-args "--values values-minikube.yaml --set-string appDomain=.localhost"
 ```
+
+Lint like CI:
+
+```shell
+ct lint --config .github/ct.yaml --all
+ ```
 
 ## Find that whitespace
 
