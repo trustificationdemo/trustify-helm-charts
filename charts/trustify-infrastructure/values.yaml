@@ -10,6 +10,9 @@ postgresql:
 keycloak:
   enabled: false
 
+jaeger:
+  enabled: false
+
 keycloakPostInstall:
   disabled: false
   # NOTE: this must be an image which contain things like bash, kcadm, grep, awk

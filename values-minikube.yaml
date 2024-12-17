@@ -54,6 +54,24 @@ keycloak:
 postgresql:
   enabled: false # see remark in Chart.yaml
 
+jaeger:
+  enabled: false # can be enabled with `--set jaeger.enabled=true`
+  # default to all-in-one
+  provisionDataStore:
+    cassandra: false
+  allInOne:
+    enabled: true
+    ingress:
+      enabled: true
+  storage:
+    type: memory
+  agent:
+    enabled: false
+  collector:
+    enabled: false
+  query:
+    enabled: false
+
 oidc:
   clients:
     frontend: {}

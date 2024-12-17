@@ -240,6 +240,9 @@ properties:
   postgresql:
     $ref: "#/definitions/Feature"
 
+  jaeger:
+    $ref: "#/definitions/Feature"
+
 # all the definitions
 
 definitions:
@@ -299,7 +302,7 @@ definitions:
   Metrics:
     type: object
     properties:
-      tracing:
+      metrics:
         $ref: "#/definitions/MetricsConfig"
 
   MetricsConfig:

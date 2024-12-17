@@ -37,7 +37,7 @@ Arguments (dict):
 
 {{- if eq ( include "trustification.application.tracing.enabled" . ) "true" }}
 - name: TRACING
-  value: "true"
+  value: "enabled"
 - name: OTEL_BSP_MAX_EXPORT_BATCH_SIZE
   value: "32"
 - name: OTEL_TRACES_SAMPLER
