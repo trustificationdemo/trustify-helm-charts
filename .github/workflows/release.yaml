@@ -28,6 +28,9 @@ jobs:
         with:
           version: v3.13.0
 
+      - run: |
+          helm repo add jaeger https://jaegertracing.github.io/helm-charts
+
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.6.0
         with:
