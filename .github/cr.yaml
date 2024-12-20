@@ -1,1 +1,3 @@
 skip-existing: true
+chart-repos:
+  - jaeger=https://jaegertracing.github.io/helm-charts
