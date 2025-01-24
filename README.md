@@ -43,22 +43,25 @@ Then deploy the application:
 helm upgrade --install -n $NAMESPACE trustify charts/trustify --values values-minikube.yaml --set-string appDomain=$APP_DOMAIN
 ```
 
-> With traces enabled:
+#### Enable tracing
+
+Infrastructure with tracing enabled:
 
 ```bash
 helm upgrade --install --dependency-update -n $NAMESPACE infrastructure charts/trustify-infrastructure --values values-minikube.yaml --set-string keycloak.ingress.hostname=sso$APP_DOMAIN --set-string appDomain=$APP_DOMAIN --set jaeger.enabled=true --set-string jaeger.allInOne.ingress.hosts[0]=jaeger$APP_DOMAIN --set tracing.enabled=true --timeout 10m
 ```
 
-> Setting OpenTelemetry collector endpoint:
-
-```bash
-helm upgrade --install -n $NAMESPACE trustify charts/trustify --values values-minikube.yaml --set-string appDomain=$APP_DOMAIN --set tracing.enabled=true --set-string tracing.collector="http://infrastructure-otelcol:4317"
-```
-
-> Using the default http://infrastructure-otelcol:4317 OpenTelemetry collector endpoint:
+Using the default http://infrastructure-otelcol:4317 OpenTelemetry collector endpoint. This works with the previous
+command of the default infrastructure deployment:
 
 ```bash
 helm upgrade --install -n $NAMESPACE trustify charts/trustify --values values-minikube.yaml --set-string appDomain=$APP_DOMAIN --set tracing.enabled=true
+```
+
+Setting an explicit OpenTelemetry collector endpoint:
+
+```bash
+helm upgrade --install -n $NAMESPACE trustify charts/trustify --values values-minikube.yaml --set-string appDomain=$APP_DOMAIN --set tracing.enabled=true --set-string tracing.collector="http://infrastructure-otelcol:4317"
 ```
 
 ### Kind
