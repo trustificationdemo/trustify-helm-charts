@@ -35,6 +35,11 @@ Arguments (dict):
 - name: INFRASTRUCTURE_BIND
   value: "[::]:{{- include "trustification.application.infrastructure.port" . }}"
 
+{{- if eq ( include "trustification.application.metrics.enabled" . ) "true" }}
+- name: METRICS
+  value: "enabled"
+{{- end }}
+
 {{- if eq ( include "trustification.application.tracing.enabled" . ) "true" }}
 - name: TRACING
   value: "enabled"
@@ -44,8 +49,7 @@ Arguments (dict):
   value: parentbased_traceidratio
 - name: OTEL_TRACES_SAMPLER_ARG
   value: "0.1"
-- name: OTEL_EXPORTER_OTLP_ENDPOINT
-  value: {{ if .root.Values.tracing.collector | default "" | trim | eq "" }}"http://infrastructure-otelcol:4317"{{ else }}{{ .root.Values.tracing.collector | quote }}{{ end }}
+{{ include "trustification.application.collector" . }}
 {{- end }}
 {{- end }}
 

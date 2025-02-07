@@ -5,7 +5,9 @@
   "additionalProperties": false,
   "required": [
     "appDomain",
-    "tracing"
+    "tracing",
+    "metrics",
+    "collector"
   ],
   "properties": {
     "$schema": {
@@ -118,12 +120,12 @@
         "enabled": {
           "type": "boolean",
           "description": "Enable support for distributed tracing.\n"
-        },
-        "collector": {
-          "type": "string",
-          "description": "OpenTelemetry collector endpoint for tracing.\n"
         }
       }
+    },
+    "collector": {
+      "type": "string",
+      "description": "OpenTelemetry collector endpoint for tracing and metrics.\n"
     },
     "rust": {
       "$ref": "#/definitions/RustApplicationConfig"
@@ -324,6 +326,9 @@
     },
     "jaeger": {
       "$ref": "#/definitions/Feature"
+    },
+    "prometheus": {
+      "$ref": "#/definitions/Feature"
     }
   },
   "definitions": {
@@ -395,6 +400,9 @@
     },
     "Metrics": {
       "type": "object",
+      "required": [
+        "metrics"
+      ],
       "properties": {
         "metrics": {
           "$ref": "#/definitions/MetricsConfig"
