@@ -13,7 +13,7 @@ storage:
       configMapKeyRef:
         name: aws-storage
         key: region
-  bucket: trustify-jreimann
+  bucket: trustify-default
   accessKey:
     valueFrom:
       secretKeyRef:
